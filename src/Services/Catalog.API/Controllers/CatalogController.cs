@@ -7,14 +7,14 @@ using System.Net;
 
 namespace Catalog.API.Controllers
 {
-    [Route("api/vi[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
-    public class CataglogController : ControllerBase
+    public class CatalogController : ControllerBase
     {
         private readonly IProductRepository _repository;
-        private readonly ILogger<CataglogController> _logger;
+        private readonly ILogger<CatalogController> _logger;
 
-        public CataglogController(IProductRepository repository, ILogger<CataglogController> logger)
+        public CatalogController(IProductRepository repository, ILogger<CatalogController> logger)
         {
             _repository = repository;
             _logger = logger;
