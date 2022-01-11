@@ -2,7 +2,6 @@ using Catalog.API.Data;
 using Catalog.API.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -31,7 +30,7 @@ app.MapControllers();
 
 app.Run();
 
-void ConfigureApplicationServices(IServiceCollection services)
+static void ConfigureApplicationServices(IServiceCollection services)
 {
     services.AddScoped<ICatalogContext, CatalogContext>();
     services.AddScoped<IProductRepository, ProductRepository>();
