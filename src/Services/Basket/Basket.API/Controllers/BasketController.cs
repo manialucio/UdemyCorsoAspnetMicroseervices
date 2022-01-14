@@ -1,5 +1,9 @@
-﻿using Basket.API.Entities;
+﻿using AutoMapper;
+using Basket.API.Entities;
+using Basket.API.GrpcServices;
 using Basket.API.Repositories;
+//using EventBus.Messages.Events;
+//using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
@@ -12,11 +16,20 @@ namespace Basket.API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _repository;
- 
-        public BasketController(IBasketRepository repository)
+        private readonly DiscountGrpcService _discountGrpcService;
+        //private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IMapper _mapper;
+        private readonly ILogger<BasketController> _logger;
+
+
+        public BasketController(IBasketRepository repository, DiscountGrpcService discountGrpcService,IMapper mapper, ILogger<BasketController> logger)
         {
+            _logger = logger;
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-         }
+            _discountGrpcService = discountGrpcService ?? throw new ArgumentNullException(nameof(discountGrpcService));
+            //_publishEndpoint = publishEndpoint ?? throw new ArgumentNullException(nameof(publishEndpoint));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
 
         [HttpGet("{userName}", Name = "GetBasket")]
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
@@ -30,7 +43,20 @@ namespace Basket.API.Controllers
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody] ShoppingCart basket)
         {
-             return Ok(await _repository.UpdateBasket(basket));
+            _logger.LogInformation($"inizio update basker");
+
+            // Communicate with Discount.Grpc and calculate lastest prices of products into sc
+            foreach (var item in basket.Items)
+            {
+
+                _logger.LogInformation($"inizio chiamata grpc service");
+                var coupon = await _discountGrpcService.GetDiscount(item.ProductName);
+                _logger.LogInformation($"fine chiamata grpc service ");
+                item.Price -= coupon.Amount;
+            }
+            _logger.LogInformation($"fine update ");
+            _logger.LogInformation($"fine update ");
+            return Ok(await _repository.UpdateBasket(basket));
         }
 
         [HttpDelete("{userName}", Name = "DeleteBasket")]
