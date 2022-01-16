@@ -14,7 +14,7 @@ namespace Ordering.Infrastructure.Persistence
         {
             return new List<Order>
             {
-                new Order() {UserName = "swn", FirstName = "Mehmet", LastName = "Ozkaya", EmailAddress = "ezozkme@gmail.com", AddressLine = "Bahcelievler", Country = "Turkey", TotalPrice = 350 }
+                new Order() {UserName = "Lucio", FirstName = "Lucio", LastName = "Mania", EmailAddress = "manialucio@gmail.com", AddressLine = "Via 8 marzo,2", Country = "Italy", TotalPrice = 350 }
             };
     
         }
@@ -24,6 +24,8 @@ namespace Ordering.Infrastructure.Persistence
             if (!orderContext.Orders.Any())
             {
                 orderContext.Orders.AddRange(GetPreConfiguredOrders());
+                await orderContext.SaveChangesAsync();
+                logger.LogInformation("Seed ordine di demo context =  {DBContextName}",typeof(OrderContext).Name);
             }
         }
  

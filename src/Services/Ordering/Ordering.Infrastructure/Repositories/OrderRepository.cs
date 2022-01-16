@@ -18,7 +18,9 @@ namespace Ordering.Infrastructure.Repositories
 
         public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
         {
-            var orderList = await _dbContext.Orders.Where(o => o.UserName == userName).ToListAsync();
+            var order = _dbContext.Orders
+                .Where(o => o.UserName == userName);
+            var orderList = await order.OrderBy( o=> o.FirstName).ToListAsync();
             return orderList;
         }
     }
