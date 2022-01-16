@@ -1,0 +1,16 @@
+{
+  "userName": "Lucio",
+  "totalPrice": 110,
+  "firstName": "Lucio",
+  "lastName": "Mania",
+  "emailAddress": "manialucio@gmail.com",
+  "addressLine": "via 8 marzo,2",
+  "country": "gaiarine",
+  "state": "italy",
+  "zipCode": "31018",
+  "cardName": "LUCIO MANIA",
+  "cardNumber": "12341234134",
+  "expiration": "2022-1-1",
+  "cvv": "666",
+  "paymentMethod": 1
+}
