@@ -1,0 +1,12 @@
+{
+  "userName": "Lucio",
+  "items": [
+    {
+      "quantity": 10,
+      "color": "red",
+      "price": 1010,
+      "productId": "p1",
+      "productName": "Samsung 10"
+    }
+  ]
+}
