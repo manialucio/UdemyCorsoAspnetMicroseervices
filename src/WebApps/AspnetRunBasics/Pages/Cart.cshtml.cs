@@ -29,7 +29,7 @@ namespace AspnetRunBasics
         public async Task<IActionResult> OnPostRemoveToCartAsync(string productId)
         {
             var basket = await _cartRepository.GetBasket("Lucio");
-            var item = basket.Items.Single( x=> x.ProductId == productId );
+            var item = basket.Items.First( x=> x.ProductId == productId );
             basket.Items.Remove( item );
             await _cartRepository.UpdateBasket(basket);
             return RedirectToPage();
